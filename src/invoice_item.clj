@@ -23,3 +23,7 @@
         (some (fn [{:tax/keys [category rate]}]
                 (and (= category :iva) (= rate 19))) taxes))))
 
+(defn invoice-items [{:invoice/keys [items]}]
+  (->> items
+       (filter valid-item?)
+       (filter search-predicate)))
