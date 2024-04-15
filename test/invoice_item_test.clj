@@ -15,7 +15,7 @@
   (test/testing "Default Discount passed correctly when rate not given"
     (let [invoice-item #:invoice-item{:precise-quantity 2.00 
                                      :precise-price 10.00}]
-      (test/is (= 20 (sut/subtotal invoice-item)))))
+      (test/is (= 20.00 (sut/subtotal invoice-item)))))
   (test/testing "Zero Price/Quantity Tests"
     (let [zero-price-item #:invoice-item{:precise-quantity 1.00 
                                         :precise-price 0.00 
