@@ -2,7 +2,7 @@
   (:require 
    [clojure.string :as str]
    [clojure.data.json :as json])
-  (:import java.time.ZonedId
+  (:import java.time.ZoneId
            java.time.LocalDate))
 
 (defn- discount-factor [{:invoice-item/keys [discount-rate]
@@ -56,7 +56,7 @@
 (defn json-file->invoice [file-name]
   (let [{:keys [items issue-date customer]} (:invoice (json/read-str
                                                        (slurp file-name)
-                                                       {:key-fn (comp keyword camel->kebab)}))
+                                                       {:key-fn (comp keyword snake->kebab)}))
         {:keys [company-name email]} customer]
     #:invoice{:issue-date (date-string->inst issue-date)
               :customer #:customer{:name company-name
