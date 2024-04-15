@@ -7,6 +7,21 @@
             [clojure.spec.alpha :as s]
             [clojure.spec.gen.alpha :as gen]))
 
+(deftest invoice-filter-test 
+  (let [invoice (edn/read-string (slurp "invoice.edn"))
+        retention-result (:retentionable/retentions (first (filter (fn [map] (contains? map :retentionable/retentions)) (sut/invoice-items invoice))))
+        tax-result (:taxable/taxes (first (filter (fn [map] (contains? map :taxable/taxes)) (sut/invoice-items invoice))))]
+    (test/testing "Expected number of results"
+      (test/is (= 2 (count (sut/invoice-items invoice)))))
+    (test/testing "Correct retention returned"
+      (test/is (some (fn [retention] (and (= :ret_fuente (:retention/category retention))
+                                          (= 1 (:retention/rate retention))))
+                     retention-result)))
+    (test/testing "Correct tax returned"
+      (test/is (some (fn [tax] (and (= :iva (:tax/category tax))
+                                    (= 19 (:tax/rate tax))))
+                     tax-result)))))
+
 (deftest json-file->invoice-test
   (test/testing "Spec Conformation" 
    (test/is (s/valid? ::sut-spec/invoice (sut/json-file->invoice "invoice.json")))))
