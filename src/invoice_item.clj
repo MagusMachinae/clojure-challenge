@@ -47,3 +47,9 @@
                  :sku (or sku "N/A")
                  :taxes (mapv rebind-tax taxes)})
 
+(defn format-date-string [date-str]
+  (apply str (interpose "-" (reverse (str/split date-str #"/")))))
+
+(defn date-string->inst [date-str]
+  (.toInstant (.atStartOfDay (LocalDate/parse (format-date-string date-str)) (ZoneId/of "America/Bogota"))))
+
