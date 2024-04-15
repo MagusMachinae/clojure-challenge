@@ -8,5 +8,6 @@
             [clojure.spec.gen.alpha :as gen]))
 
 (deftest json-file->invoice-test
-  (test/is (s/valid? ::sut-spec/invoice "invoice.json")))
+  (test/testing "Spec Conformation" 
+   (test/is (s/valid? ::sut-spec/invoice "invoice.json"))))
 
