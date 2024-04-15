@@ -36,3 +36,14 @@
 (defn snake->kebab [key-string]
   (str/replace key-string #"_" "-"))
 
+(defn rebind-tax [{:keys [tax-category tax-rate]}]
+  (let [tax-lookup-table {"IVA" :iva}]
+    #:tax{:category (tax-lookup-table tax-category)
+          :rate (double tax-rate)}))
+
+(defn rebind-item [{:keys [price quantity sku taxes]}]
+  #:invoice-item{:price (double price)
+                 :quantity (double quantity)
+                 :sku (or sku "N/A")
+                 :taxes (mapv rebind-tax taxes)})
+
