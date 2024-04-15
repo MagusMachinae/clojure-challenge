@@ -32,3 +32,7 @@
   (->> items
        (filter valid-item?)
        (filter search-predicate)))
+
+(defn snake->kebab [key-string]
+  (str/replace key-string #"_" "-"))
+
