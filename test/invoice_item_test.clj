@@ -6,3 +6,7 @@
             [invoice-item :as sut]
             [clojure.spec.alpha :as s]
             [clojure.spec.gen.alpha :as gen]))
+
+(deftest json-file->invoice-test
+  (test/is (s/valid? ::sut-spec/invoice "invoice.json")))
+
