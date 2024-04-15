@@ -3,7 +3,7 @@
     [clojure.spec.alpha :as s]))
 
 (defn not-blank? [value] (-> value clojure.string/blank? not))
-(defn non-empty-string? [x] (and (string? x) (not-blank? x)))
+(defn non-empty-string? [x] (s/and (string? x) (not-blank? x)))
 
 (s/def :customer/name non-empty-string?)
 (s/def :customer/email non-empty-string?)
