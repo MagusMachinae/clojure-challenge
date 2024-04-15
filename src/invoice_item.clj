@@ -53,3 +53,12 @@
 (defn date-string->inst [date-str]
   (.toInstant (.atStartOfDay (LocalDate/parse (format-date-string date-str)) (ZoneId/of "America/Bogota"))))
 
+(defn json-file->invoice [file-name]
+  (let [{:keys [items issue-date customer]} (:invoice (json/read-str
+                                                       (slurp file-name)
+                                                       {:key-fn (comp keyword camel->kebab)}))
+        {:keys [company-name email]} customer]
+    #:invoice{:issue-date (date-string->inst issue-date)
+              :customer #:customer{:name company-name
+                                   :email email}
+              :items (mapv rebind-item items)}))
