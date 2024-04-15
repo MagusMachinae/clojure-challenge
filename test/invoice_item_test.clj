@@ -9,5 +9,5 @@
 
 (deftest json-file->invoice-test
   (test/testing "Spec Conformation" 
-   (test/is (s/valid? ::sut-spec/invoice "invoice.json"))))
+   (test/is (s/valid? ::sut-spec/invoice (sut/json-file->invoice "invoice.json")))))
 
